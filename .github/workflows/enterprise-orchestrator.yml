@@ -26,6 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: shared-data
+          path: ~/.npm
 
 
   test:
@@ -40,6 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: shared-data
+          path: ~/.npm
 
       - name: Test
         run: npm test
