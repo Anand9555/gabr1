@@ -18,12 +18,7 @@ jobs:
   build:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
-    runs-on: ${{ matrix.os }} # Dynamically chooses the OS
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18, 20, 22] # Defines version variables
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
