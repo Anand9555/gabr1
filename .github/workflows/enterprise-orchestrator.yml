@@ -32,6 +32,12 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Automates npm dependency caching
+
       - name: Build
         run: npm install
 
@@ -49,6 +55,12 @@ jobs:
      steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Automates npm dependency caching
 
       - name: Build
         run: npm install
