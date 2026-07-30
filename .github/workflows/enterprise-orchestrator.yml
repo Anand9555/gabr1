@@ -1,43 +1,50 @@
-
 name: CI-WORKFLOW
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       log_level:
         description: 'Log level severity'
-        required: true
+        required: false
         default: 'warning'
-        type: choice
-        options:
-          - info
-          - warning
-          - debug
-          
+        type: string
       run_tests:
         description: 'Execute test suite?'
         required: false
         type: boolean
         default: true
+      node-version:
+        description: 'Node.js version'
+        required: false
+        type: string
+        default: '20'
+    secrets:
+      DEPLOY_TOKEN:
+        required: false
 
 jobs:
-  buil-test:
+  build-test:
     runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v7
-        
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
       - name: Cache Dependencies
         uses: actions/cache@v5
         with:
           path: ~/.npm
-          key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: build
         run: npm install
 
       - name: test
+        if: ${{ inputs.run_tests }}
         run: npm test
 
       - name: Artifact upload
@@ -45,6 +52,4 @@ jobs:
         with:
           name: artifact-1
           path: |
-             package*
-
-
+            package*
