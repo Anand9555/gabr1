@@ -48,5 +48,3 @@ jobs:
              package*
 
 
-      - name: deploy
-        run: echo "my code is deployed"
