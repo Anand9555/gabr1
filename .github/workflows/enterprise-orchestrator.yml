@@ -1,6 +1,24 @@
 
 name: CI-WORKFLOW
-on: push
+
+on:
+  workflow_dispatch:
+    inputs:
+      log_level:
+        description: 'Log level severity'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+          
+      run_tests:
+        description: 'Execute test suite?'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   buil-test:
