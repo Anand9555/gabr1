@@ -4,14 +4,7 @@ on:
     branches: master
   workflow_dispatch: 
 
-  permissions:
-
-      actions: read 
-
-      contents: read 
-
-      security-events: write
-
+  
 jobs:
   buil-test:
     runs-on: ubuntu-slim
