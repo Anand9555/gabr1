@@ -1,55 +1,28 @@
 name: CI-WORKFLOW
-
 on:
-  workflow_call:
-    inputs:
-      log_level:
-        description: 'Log level severity'
-        required: false
-        default: 'warning'
-        type: string
-      run_tests:
-        description: 'Execute test suite?'
-        required: false
-        type: boolean
-        default: true
-      node-version:
-        description: 'Node.js version'
-        required: false
-        type: string
-        default: '20'
-    secrets:
-      DEPLOY_TOKEN:
-        required: false
+  push:
+    branches: master
+  workflow_dispatch: 
 
 jobs:
-  build-test:
-    runs-on: ubuntu-22.04
+  buil-test:
+    runs-on: ubuntu-slim
     steps:
       - name: checkout
         uses: actions/checkout@v7
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-
-      - name: Cache Dependencies
-        uses: actions/cache@v5
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: build
         run: npm install
 
       - name: test
-        if: ${{ inputs.run_tests }}
         run: npm test
-
+        
       - name: Artifact upload
         uses: actions/upload-artifact@v7
         with:
           name: artifact-1
           path: |
-            package*
+             package*
+
+      - name: deploy
+        run: echo "my code is deployed"
